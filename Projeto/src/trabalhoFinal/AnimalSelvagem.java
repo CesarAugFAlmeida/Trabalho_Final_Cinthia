@@ -19,6 +19,13 @@ public abstract class AnimalSelvagem {
         this.estagioDesenvolvimento = estagioDesenvolvimento;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + id + " | Nome: " + nome + " | Raça: " + raca + " | Peso: " + peso + " kg"
+                + " | Estágio: " + estagioDesenvolvimento + " | Ferimentos: " + ferimentos
+                + " | Vacinado: " + (vacinado ? "Sim" : "Não");
+    }
+
     public abstract String getDietaEspecifica();
     public abstract String situacaoVacinas();
     public abstract String situacaoFerimentos();
