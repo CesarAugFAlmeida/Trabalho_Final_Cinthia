@@ -77,16 +77,33 @@ public class Main {
 		System.out.println("\n==== CADASTRAR NOVO ANIMAL ====");
 
 
-			System.out.print("Digite o ID do animal: ");
-			int id = scan.nextInt();
-			scan.nextLine();
+			int id;
+			String nome;
+			double peso;
+			try {
+				System.out.print("Digite o ID do animal: ");
+				id = scan.nextInt();
+				scan.nextLine();
+				if (buscarPorId(id) != null) {
+					System.out.println("Já existe um animal com o ID " + id + ". Cadastro cancelado.");
+					return;
+				}
 
-			System.out.print("Digite o nome do animal: ");
-			String nome = scan.nextLine();
+				System.out.print("Digite o nome do animal: ");
+				nome = scan.nextLine();
 
-			System.out.print("Digite o peso do animal (kg): ");
-			double peso = scan.nextDouble();
-			scan.nextLine();
+				System.out.print("Digite o peso do animal (kg): ");
+				peso = scan.nextDouble();
+				scan.nextLine();
+				if (peso <= 0) {
+					System.out.println("O peso deve ser maior que zero. Cadastro cancelado.");
+					return;
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("[ERRO] Entrada numérica inválida. Cadastro cancelado.");
+				scan.nextLine();
+				return;
+			}
 
 			System.out.print("Escolha a situação dos ferimentos:\n"
 					+ "1. Grave\n"
@@ -164,22 +181,23 @@ public class Main {
 					String porte = null;
 					switch (opcao) {
 					case 1:
-						porte = "Muito pequeno";
+						porte = "Muito pequeno porte";
 						break;
 					case 2:
-						porte = "Pequeno";
+						porte = "Pequeno porte";
 						break;
 					case 3:
-						porte = "Médio";
+						porte = "Médio porte";
 						break;
 					case 4:
-						porte = "Grande";
+						porte = "Grande porte";
 						break;
 					case 5:
-						porte = "Gigante";
+						porte = "Porte gigante";
 						break;
 					case 6:
 						porte = "Ave de Rapina";
+						break;
 					default:
 						System.out.println("Opção inválida. A operação foi cancelada");
 						return;
@@ -215,6 +233,7 @@ public class Main {
 							+ "1. Herbívoro\n"
 							+ "2. Carnívoro\n"
 							+ "3. Onívoro\n"
+							+ "4. Insetívoro\n"
 							+ "Resp: ");
 					lerOpcao(scan);
 					String alimentacaoReptil = null;
@@ -233,7 +252,7 @@ public class Main {
 						break;
 					default:
 						System.out.println("Opção inválida. A operação foi cancelada");
-						break;
+						return;
 					}
 					novoAnimal = new Reptil(id, nome, peso, ferimentos, raca, estagioDesenvolvimento, alimentacaoReptil);
 					break;
@@ -273,9 +292,14 @@ public class Main {
 				lerOpcao(scan);
 				switch (opcao) {
 				case 1:
-					System.out.print("Peso atual (" + animal.getPeso() + ")");
-					animal.setPeso(scan.nextDouble());
+					System.out.print("Peso atual (" + animal.getPeso() + "), novo peso: ");
+					double novoPeso = scan.nextDouble();
 					scan.nextLine();
+					if (novoPeso <= 0) {
+						System.out.println("O peso deve ser maior que zero. A operação foi cancelada");
+						return;
+					}
+					animal.setPeso(novoPeso);
 					break;
 				case 2:
 					System.out.print("Estado dos ferimentos atual (" + animal.getFerimentos() + ")");
@@ -423,6 +447,7 @@ public class Main {
 	        } catch (InputMismatchException e) {
 	            System.out.println("\n[ERRO] Entrada inválida! Por favor, digite apenas números inteiros.");
 	            scan.nextLine(); // Limpa o buffer do scanner para evitar loop infinito
+	            opcao = -1;
 	            return -1; // Retorna um valor inválido para o menu tratar
 	        }
 	    }

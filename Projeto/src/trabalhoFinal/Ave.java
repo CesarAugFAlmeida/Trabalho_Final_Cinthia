@@ -28,7 +28,7 @@ public class Ave extends AnimalSelvagem {
 		 if (this.getPorte().equalsIgnoreCase("Porte gigante")) {
 			 return "Ração à base de milho, folhas e raízes";
 		 }
-		 if (this.getRaca().equalsIgnoreCase("Ave de Rapina")) {
+		 if (this.getPorte().equalsIgnoreCase("Ave de Rapina") || this.getRaca().equalsIgnoreCase("Ave de Rapina")) {
 			 return "Peixes e pequenos roedores";
 		 }
 		 else {
